@@ -20,11 +20,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from fastapi.testclient import TestClient
 
 from app import databricks_client as dbx
+from app.config import settings
 from app.main import app
 from app.schemas import AttritionRequest, PromotionRequest
 
 client = TestClient(app)
-API_KEY_HEADERS = {"X-API-Key": "test-api-key"}
+API_KEY_HEADERS = {"X-API-Key": settings.API_KEY}
 
 
 # --------------------------------------------------------------------------
