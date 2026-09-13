@@ -78,7 +78,9 @@ def test_health():
 # --------------------------------------------------------------------------
 def test_predict_rejects_missing_api_key():
     resp = client.post("/predict/attrition", json={})
-    assert resp.status_code in (401, 422)  # missing header vs missing body, either is a reject
+    # FastAPI's APIKeyHeader returns 403 when the header is absent entirely;
+    # our own check returns 401 for a present-but-wrong key. Either is a reject.
+    assert resp.status_code in (401, 403, 422)
 
 
 def test_predict_rejects_wrong_api_key():
