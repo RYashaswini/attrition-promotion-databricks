@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint-and-unit-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: serving
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest httpx ruff
+
+      - name: Lint
+        run: ruff check app/ tests/unit/
+
+      - name: Unit tests (mocked, no Databricks calls)
+        env:
+          DATABRICKS_HOST: https://fake-workspace.cloud.databricks.com
+          DATABRICKS_TOKEN: fake-token-for-tests
+          SERVING_API_KEY: test-api-key
+        run: pytest tests/unit/ -v
