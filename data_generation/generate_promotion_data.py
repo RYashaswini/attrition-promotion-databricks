@@ -74,7 +74,7 @@ def generate_promotion_data(n_rows: int = N_ROWS) -> pd.DataFrame:
 
 if __name__ == "__main__":
     df = generate_promotion_data()
-    out_path = "promotion_raw.csv"
+    out_path = "/Volumes/ml_dev/attrition_promotion/uploads/promotion_raw.csv"
     df.to_csv(out_path, index=False)
     print(f"Wrote {len(df)} rows to {out_path}")
     print(f"Promotion rate: {df['promoted'].mean():.3f}")

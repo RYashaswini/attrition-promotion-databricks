@@ -77,7 +77,7 @@ def generate_attrition_data(n_rows: int = N_ROWS) -> pd.DataFrame:
 
 if __name__ == "__main__":
     df = generate_attrition_data()
-    out_path = "attrition_raw.csv"
+    out_path = "/Volumes/ml_dev/attrition_promotion/uploads/attrition_raw.csv"
     df.to_csv(out_path, index=False)
     print(f"Wrote {len(df)} rows to {out_path}")
     print(f"Attrition rate: {df['attrition'].mean():.3f}")
