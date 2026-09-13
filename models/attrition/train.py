@@ -7,6 +7,8 @@ Run this as a Databricks notebook/job with a cluster attached.
 Reads from the Volume created earlier; writes nothing back to git.
 """
 
+import sys
+
 import mlflow
 import pandas as pd
 from mlflow import MlflowClient
@@ -18,7 +20,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 # --- config -----------------------------------------------------------
-CATALOG = "ml_dev"          # switch to ml_staging / ml_prod per target
+CATALOG = sys.argv[1] if len(sys.argv) > 1 else "ml_dev"  # passed by databricks.yml per target
 SCHEMA = "attrition_promotion"
 MODEL_NAME = f"{CATALOG}.{SCHEMA}.attrition_model"
 DATA_PATH = f"/Volumes/{CATALOG}/{SCHEMA}/uploads/attrition_raw.csv"
@@ -26,6 +28,7 @@ CAT_COLS = ["department", "overtime"]
 TARGET = "attrition"
 
 mlflow.set_registry_uri("databricks-uc")
+mlflow.set_experiment("/Shared/attrition_training")
 
 # --- load data ----------------------------------------------------------
 df = pd.read_csv(DATA_PATH)
