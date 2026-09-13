@@ -17,11 +17,11 @@ os.environ.setdefault("SERVING_API_KEY", "test-api-key")
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from fastapi.testclient import TestClient  # noqa: E402
+from fastapi.testclient import TestClient
 
-from app import databricks_client as dbx  # noqa: E402
-from app.main import app  # noqa: E402
-from app.schemas import AttritionRequest, PromotionRequest  # noqa: E402
+from app import databricks_client as dbx
+from app.main import app
+from app.schemas import AttritionRequest, PromotionRequest
 
 client = TestClient(app)
 API_KEY_HEADERS = {"X-API-Key": "test-api-key"}

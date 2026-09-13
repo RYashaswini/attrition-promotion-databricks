@@ -1,0 +1,12 @@
+line-length = 110
+
+[lint]
+# Keep the standard, uncontroversial rule sets: pyflakes (F), pycodestyle (E/W).
+# Skip flake8-bugbear's blind-except (BLE001) and B008 - our broad
+# except Exception blocks intentionally convert any Databricks-call failure
+# into a clean 502, and FastAPI's File(...)/Depends(...) in argument defaults
+# is the framework's documented idiom, not a bug.
+select = ["E", "F", "W"]
+
+[lint.per-file-ignores]
+"tests/**" = ["E402"]  # tests intentionally set env vars before importing app.*
