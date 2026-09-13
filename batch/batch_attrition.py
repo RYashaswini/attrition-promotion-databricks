@@ -20,12 +20,19 @@ CATALOG = "ml_dev"
 SCHEMA = "attrition_promotion"
 MODEL_URI = f"models:/{CATALOG}.{SCHEMA}.attrition_model@champion"
 
-# --- get input_path: Databricks widget if run as a notebook, else CLI arg ---
+# Python file tasks get parameters via sys.argv, not dbutils.widgets
+# (widgets only work in notebook tasks). Keep the widget path too, in case
+# this ever gets run as a notebook instead of a file task.
 try:
-    dbutils  # noqa: F821  -- only exists inside a Databricks notebook context
     input_path = dbutils.widgets.get("input_path")  # noqa: F821
-except NameError:
-    input_path = sys.argv[1]
+except Exception:
+    if len(sys.argv) > 1:
+        input_path = sys.argv[1]
+    else:
+        raise ValueError(
+            "input_path not provided - pass it as a job parameter "
+            "(file task) or set the notebook widget."
+        )
 
 run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 

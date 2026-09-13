@@ -20,10 +20,15 @@ SCHEMA = "attrition_promotion"
 MODEL_URI = f"models:/{CATALOG}.{SCHEMA}.promotion_model@champion"
 
 try:
-    dbutils  # noqa: F821
-    input_path = "/Volumes/ml_dev/attrition_promotion/uploads/promotion_raw.csv"  # noqa: F821
-except NameError:
-    input_path = sys.argv[1]
+    input_path = dbutils.widgets.get("input_path")  # noqa: F821
+except Exception:
+    if len(sys.argv) > 1:
+        input_path = sys.argv[1]
+    else:
+        raise ValueError(
+            "input_path not provided - pass it as a job parameter "
+            "(file task) or set the notebook widget."
+        )
 
 run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
