@@ -7,6 +7,7 @@ line-length = 110
 # into a clean 502, and FastAPI's File(...)/Depends(...) in argument defaults
 # is the framework's documented idiom, not a bug.
 select = ["E", "F", "W"]
+ignore = ["W292"]  # missing trailing newline - cosmetic, not worth chasing through copy/paste
 
 [lint.per-file-ignores]
 "tests/**" = ["E402"]  # tests intentionally set env vars before importing app.*
