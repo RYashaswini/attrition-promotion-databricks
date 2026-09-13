@@ -10,6 +10,7 @@ Writes: predictions CSV to the outputs Volume, named after the run.
 """
 
 import sys
+from datetime import datetime
 
 import mlflow
 import pandas as pd
@@ -20,11 +21,11 @@ MODEL_URI = f"models:/{CATALOG}.{SCHEMA}.promotion_model@champion"
 
 try:
     dbutils  # noqa: F821
-    input_path = dbutils.widgets.get("input_path")  # noqa: F821
-    run_id = dbutils.widgets.get("run_id")  # noqa: F821
+    input_path = "/Volumes/ml_dev/attrition_promotion/uploads/promotion_raw.csv"  # noqa: F821
 except NameError:
     input_path = sys.argv[1]
-    run_id = sys.argv[2] if len(sys.argv) > 2 else "manual"
+
+run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 output_path = f"/Volumes/{CATALOG}/{SCHEMA}/outputs/promotion_predictions_{run_id}.csv"
 
