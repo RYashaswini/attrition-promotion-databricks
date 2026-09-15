@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attrition-promotion-api
+  labels:
+    app: attrition-promotion-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: attrition-promotion-api
+  template:
+    metadata:
+      labels:
+        app: attrition-promotion-api
+    spec:
+      containers:
+        - name: api
+          image: attrition-promotion-api:local   # overridden per environment (kind vs real AKS)
+          imagePullPolicy: Never                 # Never for kind (local image); Always for real AKS
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: attrition-promotion-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

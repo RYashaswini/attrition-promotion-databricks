@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: attrition-promotion-api
+spec:
+  selector:
+    app: attrition-promotion-api
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: ClusterIP   # switched to LoadBalancer for the real AKS step later
