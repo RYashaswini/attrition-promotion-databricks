@@ -51,6 +51,22 @@ resources:
               - scikit-learn
               - pandas
               - numpy
+    
+    drift_attrition:
+      name: drift-attrition-${bundle.target}
+      tasks:
+        - task_key: run_drift
+          spark_python_task:
+            python_file: monitoring/drift_attrition.py
+            parameters: ["ml_${bundle.target}", "/Volumes/ml_${bundle.target}/attrition_promotion/uploads/upload_1789321127_9d30105b.csv"]
+          environment_key: default
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"   # daily at 6 AM
+        timezone_id: "UTC"
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "2"
 
 targets:
   dev:
@@ -74,3 +90,4 @@ targets:
       catalog: ml_prod
     workspace:
       host: https://dbc-78442101-16ef.cloud.databricks.com
+
