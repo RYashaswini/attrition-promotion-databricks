@@ -38,14 +38,3 @@ tests/
 databricks.yml     Asset Bundle definition (jobs, endpoints, targets)
 .github/workflows/ CI + staging deploy + prod promotion
 ```
-
-## Status
-
-- [x] Repo structure
-- [x] Synthetic data generators for both models (attrition ROC-AUC ~0.79,
-      promotion ROC-AUC ~0.72 on a quick RandomForest sanity check)
-- [ ] Training scripts (MLflow + Unity Catalog registration)
-- [ ] Batch scoring jobs
-- [ ] FastAPI serving layer
-- [ ] databricks.yml bundle
-- [ ] GitHub Actions workflows
